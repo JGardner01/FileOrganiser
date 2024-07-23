@@ -1,8 +1,11 @@
 package com.jamesgardner.fileorganiser;
 
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
-import javafx.scene.control.CheckBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
@@ -29,11 +32,16 @@ public class MainController {
     @FXML
     private CheckBox sysCheckBox;
 
+    @FXML
+    private ListView<HBox> automationListView;
+    private final ObservableList<HBox> automationList = FXCollections.observableArrayList();
+
     private final AutomationManager automationManager = new AutomationManager();
 
 
     public void initialize() {
         directoryTextField.setText(Config.defaultPath);
+        automationListView.setItems(automationList);
     }
 
 
@@ -69,10 +77,32 @@ public class MainController {
     @FXML
     protected void onAddToAutomationsButtonCLick(){
         try{
-            automationManager.automateDirectory(getPath(), getSelectedFileTypes());
+            String path = getPath();
+            automationManager.automateDirectory(path, getSelectedFileTypes());
+
+            HBox automationListItem = createAutomationListItem(path);
+            automationList.add(automationListItem);
         } catch (Exception e){
             System.out.println("Exception:" + e.getMessage());
         }
+    }
+
+    private HBox createAutomationListItem(String path){
+        HBox hbox = new HBox();
+        Label nameLabel = new Label(new File(path).getName());
+        Button removeButton = new Button("X");
+
+        removeButton.setOnAction(actionEvent -> {
+            try{
+                automationManager.endAutomation(path);
+                automationList.remove(hbox);
+            } catch (Exception e){
+                System.out.println("Removing automation exception: " + e.getMessage());
+            }
+        });
+
+        hbox.getChildren().addAll(nameLabel, removeButton);
+        return hbox;
     }
 
     private String getPath(){

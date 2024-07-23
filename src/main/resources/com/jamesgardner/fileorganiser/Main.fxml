@@ -41,6 +41,6 @@
       <Line endX="-69.0" endY="301.0" layoutX="631.0" layoutY="99.0" startX="-69.0" startY="-105.0" />
       <Label layoutX="231.0" layoutY="24.0" text="Manual/Setup SIde" />
       <Label layoutX="667.0" layoutY="24.0" text="Automations Side" />
-      <ListView layoutX="567.0" layoutY="48.0" prefHeight="347.0" prefWidth="303.0" />
+      <ListView fx:id="automationListView" layoutX="567.0" layoutY="48.0" prefHeight="347.0" prefWidth="303.0" />
    </children>
 </AnchorPane>

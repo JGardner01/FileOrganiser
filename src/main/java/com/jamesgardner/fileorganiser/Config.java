@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 public class Config {
 
     public static String defaultPath = Paths.get(System.getProperty("user.home"), "Downloads").toString();
-    //public static String defaultPath = System.getProperty("user.dir");
 
     public static final HashMap<String, List<String>> fileTypes = new HashMap<>(){{
         put("Documents", List.of(".pdf", ".doc", ".docm", ".docx", ".dot", ".dotx", ".rtf", ".txt", ".xls", ".xlsx", ".xlsm", ".xlt", ".xltx", ".xltm", ".ppt", ".pptx", ".pptm", ".pps", ".ppsx", ".ppsm", ".pot", ".potx", ".potm", ".csv", ".dif", ".accdb", ".accde", ".accdr", ".accdt", ".mdb", ".pub", ".xps", ".eml", ".msg", ".vsd", ".vsdx", ".vsdm", ".vss", ".vssm", ".vst", ".vstm", ".vstx"));
