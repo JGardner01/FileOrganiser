@@ -29,7 +29,7 @@ public class MainController {
     @FXML
     private CheckBox sysCheckBox;
 
-    private Thread automaterThread;
+    private AutomationManager automationManager = new AutomationManager();
 
 
     public void initialize() {
@@ -78,9 +78,7 @@ public class MainController {
     }
 
     @FXML
-    protected void automateDirectory(){
-        System.out.println("Automating " + directoryTextField.getText());
-
+    protected void onAddToAutomationsButtonCLick(){
         String path = directoryTextField.getText();
         File directory = new File(path);
         //check directory is valid
@@ -96,13 +94,7 @@ public class MainController {
         }
 
 
-        if (automaterThread == null || !automaterThread.isAlive()){
-            DirectoryAutomator directoryAutomator = new DirectoryAutomator(path, selectedFileTypes);
-            automaterThread = new Thread(directoryAutomator);
-            automaterThread.setDaemon(true);
-            automaterThread.start();
-            System.out.println("Automator thread started");
-        }
+        automationManager.automateDirectory(path, selectedFileTypes);
     }
 
     private ArrayList<String> getSelectedFileTypes() {
