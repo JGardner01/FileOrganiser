@@ -29,7 +29,7 @@ public class MainController {
     @FXML
     private CheckBox sysCheckBox;
 
-    private AutomationManager automationManager = new AutomationManager();
+    private final AutomationManager automationManager = new AutomationManager();
 
 
     public void initialize() {
@@ -51,50 +51,39 @@ public class MainController {
     protected void onOrganiseButtonClick() {
         System.out.println("Organising " + directoryTextField.getText());
 
-        String path = directoryTextField.getText();
-        File directory = new File(path);
+        try{
+            FileOrganiser fileOrganiser = new FileOrganiser(getPath(), getSelectedFileTypes());
 
-        //check directory is valid
-        if (!directory.exists() || !directory.isDirectory()){
-            System.out.println("Invalid Directory");
-            return;
-        }
+            boolean organised = fileOrganiser.organiseFiles();
 
-        ArrayList<String> selectedFileTypes = getSelectedFileTypes();
-
-        if (selectedFileTypes.isEmpty()){
-            System.out.println("No file types selected");
-            return;
-        }
-
-        FileOrganiser fileOrganiser = new FileOrganiser(path, selectedFileTypes);
-        boolean organised = fileOrganiser.organiseFiles();
-
-        if (organised){
-            System.out.print("Files were organised");
-        } else {
-            System.out.println("Error organising files");
+            if (organised){
+                System.out.print("Files were organised");
+            } else {
+                System.out.println("Error organising files");
+            }
+        } catch (Exception e){
+            System.out.println("Exception:" + e.getMessage());
         }
     }
 
     @FXML
     protected void onAddToAutomationsButtonCLick(){
+        try{
+            automationManager.automateDirectory(getPath(), getSelectedFileTypes());
+        } catch (Exception e){
+            System.out.println("Exception:" + e.getMessage());
+        }
+    }
+
+    private String getPath(){
         String path = directoryTextField.getText();
         File directory = new File(path);
         //check directory is valid
         if (!directory.exists() || !directory.isDirectory()){
-            System.out.println("Invalid Directory");
-            return;
+            throw new IllegalArgumentException("Invalid directory");
         }
 
-        ArrayList<String> selectedFileTypes = getSelectedFileTypes();
-        if (selectedFileTypes.isEmpty()){
-            System.out.println("No file types selected");
-            return;
-        }
-
-
-        automationManager.automateDirectory(path, selectedFileTypes);
+        return path;
     }
 
     private ArrayList<String> getSelectedFileTypes() {
@@ -106,6 +95,11 @@ public class MainController {
         if (appCheckBox.isSelected()) {selectedFileTypes.add("Applications");}
         if (archCheckBox.isSelected()) {selectedFileTypes.add("Archives");}
         if (sysCheckBox.isSelected()) {selectedFileTypes.add("System Files");}
+
+        if (selectedFileTypes.isEmpty()){
+            throw new IllegalArgumentException("No file types selected");
+        }
+
         return selectedFileTypes;
     }
 }
