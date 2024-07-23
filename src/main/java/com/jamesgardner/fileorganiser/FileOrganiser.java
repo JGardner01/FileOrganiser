@@ -8,18 +8,21 @@ import java.util.HashMap;
 import java.util.List;
 
 public class FileOrganiser {
+private final List<String> selectedFileTypes;
+
     /**
      * Constructor
      */
-    public FileOrganiser(){
-
+    public FileOrganiser(List<String> selectedFileTypes){
+        this.selectedFileTypes = selectedFileTypes;
     }
 
     public void createFolders(String path){
-        for (String folder : Config.fileTypes.keySet()) {
+        for (String folder : selectedFileTypes) {
             File folderPath = new File(path, folder);
             if (!folderPath.exists()) {
                 folderPath.mkdir();
+                //throw error if false mkdir
             }
         }
     }
@@ -38,12 +41,11 @@ public class FileOrganiser {
                 if (file.isFile()) {
                     String fileName = file.getName().toLowerCase();
 
-                    for (HashMap.Entry<String, List<String>> fileTypes : Config.fileTypes.entrySet()) {
-                        String folder = fileTypes.getKey();
-                        List<String> extensions = fileTypes.getValue();
+                    for (String fileType : selectedFileTypes) {
+                        List<String> extensions = Config.fileTypes.get(fileType);
                         for (String ext : extensions) {
                             if (fileName.endsWith(ext)) {
-                                File destFolder = new File(path, folder);
+                                File destFolder = new File(path, fileType);
                                 File currentFile = new File(destFolder, file.getName());
                                 try {
                                     Files.move(file.toPath(), currentFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
