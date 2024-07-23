@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jamesgardner.fileorganiser.MainController">
    <children>
       <Button layoutX="255.0" layoutY="328.0" mnemonicParsing="false" onAction="#onOrganiseButtonClick" text="Organise Files" />
+      <Button layoutX="422.0" layoutY="228.0" mnemonicParsing="false" onAction="#onSelectDirectoryButtonClick" text="Select Directory" />
+      <TextField fx:id="directoryTextField" layoutX="89.0" layoutY="228.0" prefHeight="25.0" prefWidth="322.0" />
    </children>
 </AnchorPane>

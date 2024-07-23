@@ -8,17 +8,14 @@ import java.util.HashMap;
 import java.util.List;
 
 public class FileOrganiser {
-    //config
-    private final String path;
-
     /**
      * Constructor
      */
     public FileOrganiser(){
-        this.path = Config.defaultPath;
+
     }
 
-    public void createFolders(){
+    public void createFolders(String path){
         for (String folder : Config.fileTypes.keySet()) {
             File folderPath = new File(path, folder);
             if (!folderPath.exists()) {
@@ -27,7 +24,7 @@ public class FileOrganiser {
         }
     }
 
-    public boolean organiseFiles(){
+    public boolean organiseFiles(String path){
         try{
             File directory = new File(path);
             File[] files = directory.listFiles();
