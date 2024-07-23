@@ -10,7 +10,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jamesgardner.fileorganiser.MainController">
    <children>
-      <Button layoutX="255.0" layoutY="328.0" mnemonicParsing="false" onAction="#onOrganiseButtonClick" text="Organise Files" />
+      <Button layoutX="316.0" layoutY="327.0" mnemonicParsing="false" onAction="#onOrganiseButtonClick" text="Organise Files" />
       <Button layoutX="417.0" layoutY="54.0" mnemonicParsing="false" onAction="#onSelectDirectoryButtonClick" text="Select Directory" />
       <TextField fx:id="directoryTextField" layoutX="84.0" layoutY="54.0" prefHeight="25.0" prefWidth="322.0" />
       <GridPane layoutX="84.0" layoutY="88.0">
@@ -34,5 +34,6 @@
             <CheckBox fx:id="musicCheckBox" mnemonicParsing="false" selected="true" text="Music" GridPane.columnIndex="3" />
          </children>
       </GridPane>
+      <Button layoutX="144.0" layoutY="327.0" mnemonicParsing="false" onAction="#automateDirectory" text="Automate Organisation" />
    </children>
 </AnchorPane>

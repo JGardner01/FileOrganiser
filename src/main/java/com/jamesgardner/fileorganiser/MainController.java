@@ -29,7 +29,7 @@ public class MainController {
     @FXML
     private CheckBox sysCheckBox;
 
-
+    private Thread automaterThread;
 
 
     public void initialize() {
@@ -44,6 +44,7 @@ public class MainController {
 
         File selectedDirectory = directoryChooser.showDialog(new Stage());
         System.out.println(selectedDirectory);//debug
+        directoryTextField.setText(String.valueOf(selectedDirectory));
     }
 
     @FXML
@@ -59,6 +60,52 @@ public class MainController {
             return;
         }
 
+        ArrayList<String> selectedFileTypes = getSelectedFileTypes();
+
+        if (selectedFileTypes.isEmpty()){
+            System.out.println("No file types selected");
+            return;
+        }
+
+        FileOrganiser fileOrganiser = new FileOrganiser(path, selectedFileTypes);
+        boolean organised = fileOrganiser.organiseFiles();
+
+        if (organised){
+            System.out.print("Files were organised");
+        } else {
+            System.out.println("Error organising files");
+        }
+    }
+
+    @FXML
+    protected void automateDirectory(){
+        System.out.println("Automating " + directoryTextField.getText());
+
+        String path = directoryTextField.getText();
+        File directory = new File(path);
+        //check directory is valid
+        if (!directory.exists() || !directory.isDirectory()){
+            System.out.println("Invalid Directory");
+            return;
+        }
+
+        ArrayList<String> selectedFileTypes = getSelectedFileTypes();
+        if (selectedFileTypes.isEmpty()){
+            System.out.println("No file types selected");
+            return;
+        }
+
+
+        if (automaterThread == null || !automaterThread.isAlive()){
+            DirectoryAutomator directoryAutomator = new DirectoryAutomator(path, selectedFileTypes);
+            automaterThread = new Thread(directoryAutomator);
+            automaterThread.setDaemon(true);
+            automaterThread.start();
+            System.out.println("Automator thread started");
+        }
+    }
+
+    private ArrayList<String> getSelectedFileTypes() {
         ArrayList<String> selectedFileTypes = new ArrayList<>();
         if (docsCheckBox.isSelected()) {selectedFileTypes.add("Documents");}
         if (imgCheckBox.isSelected()) {selectedFileTypes.add("Images");}
@@ -67,20 +114,6 @@ public class MainController {
         if (appCheckBox.isSelected()) {selectedFileTypes.add("Applications");}
         if (archCheckBox.isSelected()) {selectedFileTypes.add("Archives");}
         if (sysCheckBox.isSelected()) {selectedFileTypes.add("System Files");}
-
-        if (selectedFileTypes.isEmpty()){
-            System.out.println("No file types selected");
-            return;
-        }
-
-        FileOrganiser fileOrganiser = new FileOrganiser(selectedFileTypes);
-        fileOrganiser.createFolders(path);
-        boolean organised = fileOrganiser.organiseFiles(path);
-
-        if (organised){
-            System.out.print("Files were organised");
-        } else {
-            System.out.println("Error organising files");
-        }
+        return selectedFileTypes;
     }
 }
