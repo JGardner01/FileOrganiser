@@ -1,14 +1,18 @@
 package com.jamesgardner.fileorganiser;
 
-import javafx.beans.Observable;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import javafx.stage.Modality;
 
+import java.io.IOException;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -44,6 +48,32 @@ public class MainController {
         automationListView.setItems(automationList);
     }
 
+    @FXML
+    protected void onAppSettingsClick() throws IOException {
+        Stage settingsStage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AppSettings.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        settingsStage.setTitle("App Settings");
+        settingsStage.setScene(scene);
+        settingsStage.setResizable(false);
+        settingsStage.initModality(Modality.APPLICATION_MODAL);
+        settingsStage.showAndWait();
+    }
+
+    @FXML
+    protected void onExitClick() {
+        Platform.exit();
+        System.exit(0);
+    }
+
+    @FXML
+    protected void onHelpClick() {
+        //implement new window with instructions in final ui stage
+    }
+    @FXML
+    protected void onAboutClick() {
+        //implement new window with about application in final ui stage
+    }
 
     @FXML
     protected void onSelectDirectoryButtonClick() {

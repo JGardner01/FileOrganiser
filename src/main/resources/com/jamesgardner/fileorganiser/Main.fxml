@@ -4,6 +4,9 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -11,12 +14,12 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Line?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="874.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jamesgardner.fileorganiser.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="415.0" prefWidth="874.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jamesgardner.fileorganiser.MainController">
    <children>
-      <Button layoutX="287.0" layoutY="327.0" mnemonicParsing="false" onAction="#onOrganiseButtonClick" text="Organise Files" />
-      <Button layoutX="417.0" layoutY="54.0" mnemonicParsing="false" onAction="#onSelectDirectoryButtonClick" text="Select Directory" />
-      <TextField fx:id="directoryTextField" layoutX="84.0" layoutY="54.0" prefHeight="25.0" prefWidth="322.0" />
-      <GridPane layoutX="84.0" layoutY="88.0">
+      <Button layoutX="291.0" layoutY="347.0" mnemonicParsing="false" onAction="#onOrganiseButtonClick" text="Organise Files" />
+      <Button layoutX="421.0" layoutY="74.0" mnemonicParsing="false" onAction="#onSelectDirectoryButtonClick" text="Select Directory" />
+      <TextField fx:id="directoryTextField" layoutX="88.0" layoutY="74.0" prefHeight="25.0" prefWidth="322.0" />
+      <GridPane layoutX="88.0" layoutY="108.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -37,10 +40,26 @@
             <CheckBox fx:id="musicCheckBox" mnemonicParsing="false" selected="true" text="Music" GridPane.columnIndex="3" />
          </children>
       </GridPane>
-      <Button layoutX="144.0" layoutY="327.0" mnemonicParsing="false" onAction="#onAddToAutomationsButtonCLick" text="Add To Automations" />
+      <Button layoutX="148.0" layoutY="347.0" mnemonicParsing="false" onAction="#onAddToAutomationsButtonCLick" text="Add To Automations" />
       <Line endX="-69.0" endY="301.0" layoutX="631.0" layoutY="99.0" startX="-69.0" startY="-105.0" />
-      <Label layoutX="231.0" layoutY="24.0" text="Manual/Setup SIde" />
-      <Label layoutX="667.0" layoutY="24.0" text="Automations Side" />
-      <ListView fx:id="automationListView" layoutX="567.0" layoutY="48.0" prefHeight="347.0" prefWidth="303.0" />
+      <Label layoutX="235.0" layoutY="44.0" text="Manual/Setup SIde" />
+      <Label layoutX="671.0" layoutY="44.0" text="Automations Side" />
+      <ListView fx:id="automationListView" layoutX="571.0" layoutY="68.0" prefHeight="334.0" prefWidth="297.0" />
+      <MenuBar prefHeight="25.0" prefWidth="874.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#onAppSettingsClick" text="App Settings" />
+                  <MenuItem mnemonicParsing="false" onAction="#onExitClick" text="Exit" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#onHelpClick" text="Help" />
+                  <MenuItem mnemonicParsing="false" onAction="#onAboutClick" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
    </children>
 </AnchorPane>

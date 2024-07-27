@@ -28,8 +28,12 @@ public class Main extends Application {
 
         javafx.application.Platform.setImplicitExit(false);
         stage.setOnCloseRequest(event -> {
-            //change to if allowed in the background with setting
-            minimiseToTray();
+            if (AppSettings.getRunInBackground()){
+                minimiseToTray();
+            } else{
+                Platform.exit();
+                System.exit(0);
+            }
         });
 
 
