@@ -50,6 +50,7 @@
           <Menu mnemonicParsing="false" text="File">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#onAppSettingsClick" text="App Settings" />
+                  <MenuItem mnemonicParsing="false" onAction="#onAdditionalFileExtensionsClick" text="Manage File Extensions" />
                   <MenuItem mnemonicParsing="false" onAction="#onExitClick" text="Exit" />
             </items>
           </Menu>

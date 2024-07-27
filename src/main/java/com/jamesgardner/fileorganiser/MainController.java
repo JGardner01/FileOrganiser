@@ -61,6 +61,18 @@ public class MainController {
     }
 
     @FXML
+    protected void onAdditionalFileExtensionsClick() throws IOException{
+        Stage extensionsStage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ManageFileExtensions.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        extensionsStage.setTitle("Additional File Extensions");
+        extensionsStage.setScene(scene);
+//        extensionsStage.setResizable(false);
+        extensionsStage.initModality(Modality.APPLICATION_MODAL);
+        extensionsStage.showAndWait();
+    }
+
+    @FXML
     protected void onExitClick() {
         Platform.exit();
         System.exit(0);
