@@ -134,17 +134,15 @@ public class MainController {
         System.out.println("Organising " + directoryTextField.getText());
 
         try{
-            boolean organised;
+            boolean organised = false;
             if (fileTypeRadioButton.isSelected()){
                 FileOrganiser fileOrganiser = new FileOrganiser(getPath(), getSelectedFileTypes());
                 organised = fileOrganiser.organiseFiles();
             } else if (dateRadioButton.isSelected()){
                 FileOrganiser fileOrganiser = new FileOrganiser(getPath(), getDateFrequency());
                 organised = fileOrganiser.organiseFiles();
-            } else {
-                System.err.println("Invalid Mode");
-                organised = false;
             }
+
             if (organised){
                 System.out.print("Files were organised");
             } else {
@@ -161,7 +159,13 @@ public class MainController {
     protected void onAddToAutomationsButtonCLick(){
         try{
             String path = getPath();
-            automationManager.automateDirectory(path, getSelectedFileTypes());
+            if (fileTypeRadioButton.isSelected()){
+                DirectoryAutomator directoryAutomator = new DirectoryAutomator(path, getSelectedFileTypes());
+                automationManager.automateDirectory(path, directoryAutomator);
+            } else if (dateRadioButton.isSelected()) {
+                DirectoryAutomator directoryAutomator = new DirectoryAutomator(path, getDateFrequency());
+                automationManager.automateDirectory(path, directoryAutomator);
+            }
 
             HBox automationListItem = createAutomationListItem(path);
             automationList.add(automationListItem);

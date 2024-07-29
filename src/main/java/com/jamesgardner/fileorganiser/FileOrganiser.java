@@ -81,7 +81,7 @@ public class FileOrganiser {
                         if (dateFrequency.equals("Yearly")){
                             folderName = String.valueOf(dateTime.getYear());
                         } else if (dateFrequency.equals("Monthly")) {
-                            folderName = dateTime.getYear() + "/" + String.format("%02d", dateTime.getMonthValue());
+                            folderName = dateTime.getYear() + "-" + String.format("%02d", dateTime.getMonthValue());
                         } else {
                             throw new Exception("Could not find date frequency");
                         }

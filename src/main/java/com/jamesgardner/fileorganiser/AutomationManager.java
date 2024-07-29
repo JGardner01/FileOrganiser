@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class AutomationManager {
     private final HashMap<String, Thread> automationThreads = new HashMap<>();
 
-    public void automateDirectory(String path, ArrayList<String> selectedFileTypes){
+    public void automateDirectory(String path, DirectoryAutomator directoryAutomator){
         System.out.println("Automating " + path);
 
         File directory = new File(path);
@@ -17,19 +17,13 @@ public class AutomationManager {
             return;
         }
 
-        if (selectedFileTypes.isEmpty()){
-            System.out.println("No file types selected");
-            return;
-        }
-
-
-        DirectoryAutomator directoryAutomator = new DirectoryAutomator(path, selectedFileTypes);
         Thread automatorThread = new Thread(directoryAutomator);
         automatorThread.setDaemon(true);
         automationThreads.put(path, automatorThread);
         automatorThread.start();
         System.out.println("Automator thread started on path" + path);
     }
+
 
     public void endAutomation(String path){
        Thread automatorThread = automationThreads.get(path);
