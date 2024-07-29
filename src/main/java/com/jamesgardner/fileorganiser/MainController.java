@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.Modality;
@@ -20,6 +21,16 @@ import java.util.ArrayList;
 public class MainController {
     @FXML
     private TextField directoryTextField;
+
+    @FXML
+    private RadioButton fileTypeRadioButton;
+    @FXML
+    private RadioButton dataRadioButton;
+
+    @FXML
+    private VBox fileTypeVbox;
+    @FXML
+    private VBox dateVbox;
 
     @FXML
     private CheckBox docsCheckBox;
@@ -95,6 +106,21 @@ public class MainController {
         File selectedDirectory = directoryChooser.showDialog(new Stage());
         System.out.println(selectedDirectory);//debug
         directoryTextField.setText(String.valueOf(selectedDirectory));
+    }
+
+    @FXML
+    public void onOrganiseByRadio(){
+        if (fileTypeRadioButton.isSelected()){
+            fileTypeVbox.setVisible(true);
+            fileTypeVbox.setManaged(true);
+            dateVbox.setVisible(false);
+            dateVbox.setManaged(false);
+        } else {
+            fileTypeVbox.setVisible(false);
+            fileTypeVbox.setManaged(false);
+            dateVbox.setVisible(true);
+            dateVbox.setManaged(true);
+        }
     }
 
     @FXML
