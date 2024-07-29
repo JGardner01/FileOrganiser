@@ -25,7 +25,7 @@ public class MainController {
     @FXML
     private RadioButton fileTypeRadioButton;
     @FXML
-    private RadioButton dataRadioButton;
+    private RadioButton dateRadioButton;
 
     @FXML
     private VBox fileTypeVbox;
@@ -46,6 +46,12 @@ public class MainController {
     private CheckBox archCheckBox;
     @FXML
     private CheckBox sysCheckBox;
+
+    @FXML
+    private RadioButton yearlyRadioButton;
+    @FXML
+    private RadioButton monthlyRadioButton;
+
 
     @FXML
     private ListView<HBox> automationListView;
@@ -128,15 +134,24 @@ public class MainController {
         System.out.println("Organising " + directoryTextField.getText());
 
         try{
-            FileOrganiser fileOrganiser = new FileOrganiser(getPath(), getSelectedFileTypes());
-
-            boolean organised = fileOrganiser.organiseFiles();
-
+            boolean organised;
+            if (fileTypeRadioButton.isSelected()){
+                FileOrganiser fileOrganiser = new FileOrganiser(getPath(), getSelectedFileTypes());
+                organised = fileOrganiser.organiseFiles();
+            } else if (dateRadioButton.isSelected()){
+                FileOrganiser fileOrganiser = new FileOrganiser(getPath(), getDateFrequency());
+                organised = fileOrganiser.organiseFiles();
+            } else {
+                System.err.println("Invalid Mode");
+                organised = false;
+            }
             if (organised){
                 System.out.print("Files were organised");
             } else {
                 System.out.println("Error organising files");
             }
+
+
         } catch (Exception e){
             System.out.println("Exception:" + e.getMessage());
         }
@@ -199,5 +214,14 @@ public class MainController {
         }
 
         return selectedFileTypes;
+    }
+
+    private String getDateFrequency(){
+        if (yearlyRadioButton.isSelected()){
+            return "Yearly";
+        } else if (monthlyRadioButton.isSelected()) {
+            return "Monthly";
+        }
+        throw new IllegalArgumentException("Invalid date frequency");
     }
 }
