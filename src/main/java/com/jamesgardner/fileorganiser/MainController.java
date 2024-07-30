@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -16,6 +17,7 @@ import javafx.stage.Modality;
 import java.io.IOException;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainController {
@@ -158,27 +160,49 @@ public class MainController {
     @FXML
     protected void onAddToAutomationsButtonCLick(){
         try{
-            String path = getPath();
             if (fileTypeRadioButton.isSelected()){
-                DirectoryAutomator directoryAutomator = new DirectoryAutomator(path, getSelectedFileTypes());
-                automationManager.automateDirectory(path, directoryAutomator);
+                addToAutomations(getPath(), getSelectedFileTypes());
             } else if (dateRadioButton.isSelected()) {
-                DirectoryAutomator directoryAutomator = new DirectoryAutomator(path, getDateFrequency());
-                automationManager.automateDirectory(path, directoryAutomator);
+                addToAutomations(getPath(), getDateFrequency());
+            } else{
+                throw new IllegalArgumentException("Organise by not valid");
             }
-
-            HBox automationListItem = createAutomationListItem(path);
-            automationList.add(automationListItem);
         } catch (Exception e){
             System.out.println("Exception:" + e.getMessage());
         }
     }
 
+    public void addToAutomations(String path, List<String> selectedFileTypes) {
+        DirectoryAutomator directoryAutomator;
+        directoryAutomator = new DirectoryAutomator(path, selectedFileTypes);
+        if (automationManager.automateDirectory(path, directoryAutomator)){
+            HBox automationListItem = createAutomationListItem(path);
+            automationList.add(automationListItem);
+        } else{
+            System.out.println("Could not add automation");
+        }
+    }
+
+    public void addToAutomations(String path, String dateFrequency) {
+        DirectoryAutomator directoryAutomator;
+        directoryAutomator = new DirectoryAutomator(path, dateFrequency);
+        if (automationManager.automateDirectory(path, directoryAutomator)){
+            HBox automationListItem = createAutomationListItem(path);
+            automationList.add(automationListItem);
+        } else{
+            System.out.println("Could not add automation");
+        }
+    }
+
+
+
     private HBox createAutomationListItem(String path){
         HBox hbox = new HBox();
-        Label nameLabel = new Label(new File(path).getName());
-        Button removeButton = new Button("X");
+        hbox.setSpacing(10);
 
+        Label nameLabel = new Label(new File(path).getName());
+
+        Button removeButton = new Button("Remove");
         removeButton.setOnAction(actionEvent -> {
             try{
                 automationManager.endAutomation(path);
@@ -188,7 +212,50 @@ public class MainController {
             }
         });
 
-        hbox.getChildren().addAll(nameLabel, removeButton);
+
+        String organisedBy;
+        Object organisedByValue;
+
+        if (fileTypeRadioButton.isSelected()){
+            organisedBy = "fileType";
+            organisedByValue = getSelectedFileTypes();
+        } else {
+            organisedBy = "date";
+            organisedByValue = getDateFrequency();
+        }
+
+        Button editButton = new Button("Edit");
+        editButton.setOnAction(actionEvent -> {
+            try{
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditAutomation.fxml"));
+                Parent parent = fxmlLoader.load();
+
+                EditAutomationController editAutomationController = fxmlLoader.getController();
+                editAutomationController.setPath(path);
+
+                if (organisedByValue instanceof List){
+                    editAutomationController.setOrganisedBy(organisedBy, (List<String>) organisedByValue);
+                } else {
+                    editAutomationController.setOrganisedBy(organisedBy, (String) organisedByValue);
+                }
+
+                editAutomationController.setRemoveButton(removeButton);
+                editAutomationController.passMainController(this);
+
+                Stage editAutomationsStage = new Stage();
+                Scene scene = new Scene(parent);
+                editAutomationsStage.setTitle("Edit Automation");
+                editAutomationsStage.setScene(scene);
+                editAutomationsStage.setResizable(false);
+                editAutomationsStage.initModality(Modality.APPLICATION_MODAL);
+                editAutomationsStage.showAndWait();
+            } catch (IOException e){
+                System.out.println("Exception:" + e.getMessage());
+            }
+        });
+
+
+        hbox.getChildren().addAll(nameLabel, removeButton, editButton);
         return hbox;
     }
 

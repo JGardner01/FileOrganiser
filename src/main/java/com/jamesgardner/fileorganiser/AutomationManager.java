@@ -7,14 +7,18 @@ import java.util.HashMap;
 public class AutomationManager {
     private final HashMap<String, Thread> automationThreads = new HashMap<>();
 
-    public void automateDirectory(String path, DirectoryAutomator directoryAutomator){
+    public boolean automateDirectory(String path, DirectoryAutomator directoryAutomator){
         System.out.println("Automating " + path);
+
+        if (automationThreads.get(path) != null) {
+            return false;
+        }
 
         File directory = new File(path);
         //check directory is valid
         if (!directory.exists() || !directory.isDirectory()){
-            System.out.println("Invalid Directory");
-            return;
+            System.err.println("Invalid Directory");
+            return false;
         }
 
         Thread automatorThread = new Thread(directoryAutomator);
@@ -22,6 +26,7 @@ public class AutomationManager {
         automationThreads.put(path, automatorThread);
         automatorThread.start();
         System.out.println("Automator thread started on path" + path);
+        return true;
     }
 
 

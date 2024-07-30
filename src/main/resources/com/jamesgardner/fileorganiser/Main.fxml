@@ -173,7 +173,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </Label>
-                  <ListView fx:id="automationListView" maxHeight="1.7976931348623157E308" prefHeight="258.0" prefWidth="206.0">
+                  <ListView fx:id="automationListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="258.0" prefWidth="206.0">
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
