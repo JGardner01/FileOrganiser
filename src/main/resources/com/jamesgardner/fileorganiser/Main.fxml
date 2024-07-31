@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="310.0" prefWidth="610.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jamesgardner.fileorganiser.MainController">
+<VBox maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="310.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jamesgardner.fileorganiser.MainController">
    <children>
       <MenuBar>
         <menus>
@@ -37,9 +37,9 @@
           </Menu>
         </menus>
       </MenuBar>
-      <SplitPane dividerPositions="0.65" prefHeight="500.0" prefWidth="600.0">
+      <SplitPane fx:id="splitPane" dividerPositions="0.6148255813953488" prefHeight="500.0" prefWidth="600.0">
         <items>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox prefHeight="200.0" prefWidth="422.0">
                <children>
                   <VBox prefHeight="56.0" prefWidth="388.0">
                      <children>
@@ -48,9 +48,9 @@
                               <Insets left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                         </Label>
-                        <HBox>
+                        <HBox spacing="5.0">
                            <children>
-                              <TextField fx:id="directoryTextField" prefHeight="25.0" prefWidth="308.0" />
+                              <TextField fx:id="directoryTextField" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="338.0" />
                               <Button mnemonicParsing="false" onAction="#onSelectDirectoryButtonClick" prefHeight="25.0" prefWidth="60.0" text="Browse" />
                            </children>
                            <VBox.margin>
@@ -173,7 +173,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </Label>
-                  <ListView fx:id="automationListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="258.0" prefWidth="206.0">
+                  <ListView fx:id="automationListView" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pickOnBounds="false" prefHeight="236.0" prefWidth="331.0" stylesheets="@../../../stylesheets/AutomationsList.css">
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>

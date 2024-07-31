@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
@@ -56,8 +57,8 @@ public class MainController {
 
 
     @FXML
-    private ListView<HBox> automationListView;
-    private final ObservableList<HBox> automationList = FXCollections.observableArrayList();
+    private ListView<BorderPane> automationListView;
+    private final ObservableList<BorderPane> automationList = FXCollections.observableArrayList();
 
     private final AutomationManager automationManager = new AutomationManager();
 
@@ -176,7 +177,7 @@ public class MainController {
         DirectoryAutomator directoryAutomator;
         directoryAutomator = new DirectoryAutomator(path, selectedFileTypes);
         if (automationManager.automateDirectory(path, directoryAutomator)){
-            HBox automationListItem = createAutomationListItem(path);
+            BorderPane automationListItem = createAutomationListItem(path);
             automationList.add(automationListItem);
         } else{
             System.out.println("Could not add automation");
@@ -187,7 +188,7 @@ public class MainController {
         DirectoryAutomator directoryAutomator;
         directoryAutomator = new DirectoryAutomator(path, dateFrequency);
         if (automationManager.automateDirectory(path, directoryAutomator)){
-            HBox automationListItem = createAutomationListItem(path);
+            BorderPane automationListItem = createAutomationListItem(path);
             automationList.add(automationListItem);
         } else{
             System.out.println("Could not add automation");
@@ -196,9 +197,9 @@ public class MainController {
 
 
 
-    private HBox createAutomationListItem(String path){
-        HBox hbox = new HBox();
-        hbox.setSpacing(10);
+    private BorderPane createAutomationListItem(String path){
+        BorderPane borderPane = new BorderPane();
+        HBox buttonHbox = new HBox();
 
         Label nameLabel = new Label(new File(path).getName());
 
@@ -206,7 +207,7 @@ public class MainController {
         removeButton.setOnAction(actionEvent -> {
             try{
                 automationManager.endAutomation(path);
-                automationList.remove(hbox);
+                automationList.remove(borderPane);
             } catch (Exception e){
                 System.out.println("Removing automation exception: " + e.getMessage());
             }
@@ -254,9 +255,11 @@ public class MainController {
             }
         });
 
+        buttonHbox.getChildren().addAll(editButton,removeButton);
+        borderPane.setLeft(nameLabel);
+        borderPane.setRight(buttonHbox);
 
-        hbox.getChildren().addAll(nameLabel, removeButton, editButton);
-        return hbox;
+        return borderPane;
     }
 
     private String getPath(){
