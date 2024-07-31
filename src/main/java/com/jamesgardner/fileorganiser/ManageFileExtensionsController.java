@@ -15,7 +15,7 @@ import java.util.Map;
 public class ManageFileExtensionsController {
 
     @FXML
-    private ComboBox<String> fileTypeComboBox;
+    private ComboBox<FileType> fileTypeComboBox;
 
     @FXML
     private ListView<HBox> extensionListView;
@@ -32,7 +32,7 @@ public class ManageFileExtensionsController {
 
     @FXML
     protected void onFileTypeSelected(){
-        String selectedFileType = fileTypeComboBox.getValue();
+        FileType selectedFileType = fileTypeComboBox.getValue();
         extensionList = FXCollections.observableArrayList();
         List<String> extensions = Config.fileTypes.get(selectedFileType);
         for (String extension : extensions){
@@ -57,7 +57,7 @@ public class ManageFileExtensionsController {
 
     @FXML
     protected void onAddButtonClick(){
-        String selectedFileType = fileTypeComboBox.getValue();
+        FileType selectedFileType = fileTypeComboBox.getValue();
         String newExtension = extensionTextField.getText();
 
         if (!newExtension.isEmpty() && !newExtension.startsWith(".")){
@@ -86,7 +86,7 @@ public class ManageFileExtensionsController {
     }
 
     private boolean checkExtensionExists(String newExtension){
-        for (Map.Entry<String, List<String>> entry : Config.fileTypes.entrySet()){
+        for (Map.Entry<FileType, List<String>> entry : Config.fileTypes.entrySet()){
             for (String extension : entry.getValue()){
                 if (extension.equals(newExtension)){
                     System.out.println(newExtension + " exists in config");

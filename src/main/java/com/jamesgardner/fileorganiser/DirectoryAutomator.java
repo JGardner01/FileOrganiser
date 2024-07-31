@@ -9,14 +9,14 @@ public class DirectoryAutomator implements  Runnable{
     private final String path;
     private final FileOrganiser fileOrganiser;
 
-    public DirectoryAutomator(String path, List<String> selectedFileTypes){
+    public DirectoryAutomator(String path, List<FileType> selectedFileTypes){
         this.path = path;
         this.fileOrganiser = new FileOrganiser(path, selectedFileTypes);
 
         this.fileOrganiser.organiseFiles();
     }
 
-    public DirectoryAutomator(String path, String dateFrequency){
+    public DirectoryAutomator(String path, DateFrequency dateFrequency){
         this.path = path;
         this.fileOrganiser = new FileOrganiser(path, dateFrequency);
 

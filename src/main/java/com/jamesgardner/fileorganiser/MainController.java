@@ -22,6 +22,8 @@ import java.util.List;
 
 
 public class MainController {
+    public final int maxCharAutomationName = 20;
+
     @FXML
     private TextField directoryTextField;
 
@@ -173,7 +175,7 @@ public class MainController {
         }
     }
 
-    public void addToAutomations(String path, List<String> selectedFileTypes) {
+    public void addToAutomations(String path, List<FileType> selectedFileTypes) {
         DirectoryAutomator directoryAutomator;
         directoryAutomator = new DirectoryAutomator(path, selectedFileTypes);
         if (automationManager.automateDirectory(path, directoryAutomator)){
@@ -184,7 +186,7 @@ public class MainController {
         }
     }
 
-    public void addToAutomations(String path, String dateFrequency) {
+    public void addToAutomations(String path, DateFrequency dateFrequency) {
         DirectoryAutomator directoryAutomator;
         directoryAutomator = new DirectoryAutomator(path, dateFrequency);
         if (automationManager.automateDirectory(path, directoryAutomator)){
@@ -200,8 +202,13 @@ public class MainController {
     private BorderPane createAutomationListItem(String path){
         BorderPane borderPane = new BorderPane();
         HBox buttonHbox = new HBox();
+        buttonHbox.setSpacing(5);
 
-        Label nameLabel = new Label(new File(path).getName());
+        String directoryName = new File(path).getName();
+        if (directoryName.length() > maxCharAutomationName){
+            directoryName = directoryName.substring(0, maxCharAutomationName) + "...";
+        }
+        Label nameLabel = new Label(directoryName);
 
         Button removeButton = new Button("Remove");
         removeButton.setOnAction(actionEvent -> {
@@ -214,14 +221,14 @@ public class MainController {
         });
 
 
-        String organisedBy;
+        OrganiseMode organisedBy;
         Object organisedByValue;
 
         if (fileTypeRadioButton.isSelected()){
-            organisedBy = "fileType";
+            organisedBy = OrganiseMode.FILE_TYPE;
             organisedByValue = getSelectedFileTypes();
         } else {
-            organisedBy = "date";
+            organisedBy = OrganiseMode.DATE;
             organisedByValue = getDateFrequency();
         }
 
@@ -235,9 +242,9 @@ public class MainController {
                 editAutomationController.setPath(path);
 
                 if (organisedByValue instanceof List){
-                    editAutomationController.setOrganisedBy(organisedBy, (List<String>) organisedByValue);
+                    editAutomationController.setOrganisedBy(organisedBy, (List<FileType>) organisedByValue);
                 } else {
-                    editAutomationController.setOrganisedBy(organisedBy, (String) organisedByValue);
+                    editAutomationController.setOrganisedBy(organisedBy, (DateFrequency) organisedByValue);
                 }
 
                 editAutomationController.setRemoveButton(removeButton);
@@ -259,6 +266,7 @@ public class MainController {
         borderPane.setLeft(nameLabel);
         borderPane.setRight(buttonHbox);
 
+
         return borderPane;
     }
 
@@ -273,15 +281,15 @@ public class MainController {
         return path;
     }
 
-    private ArrayList<String> getSelectedFileTypes() {
-        ArrayList<String> selectedFileTypes = new ArrayList<>();
-        if (docsCheckBox.isSelected()) {selectedFileTypes.add("Documents");}
-        if (imgCheckBox.isSelected()) {selectedFileTypes.add("Images");}
-        if (vidCheckBox.isSelected()) {selectedFileTypes.add("Videos");}
-        if (musicCheckBox.isSelected()) {selectedFileTypes.add("Music");}
-        if (appCheckBox.isSelected()) {selectedFileTypes.add("Applications");}
-        if (archCheckBox.isSelected()) {selectedFileTypes.add("Archives");}
-        if (sysCheckBox.isSelected()) {selectedFileTypes.add("System Files");}
+    private ArrayList<FileType> getSelectedFileTypes() {
+        ArrayList<FileType> selectedFileTypes = new ArrayList<>();
+        if (docsCheckBox.isSelected()) {selectedFileTypes.add(FileType.DOCUMENTS);}
+        if (imgCheckBox.isSelected()) {selectedFileTypes.add(FileType.IMAGES);}
+        if (vidCheckBox.isSelected()) {selectedFileTypes.add(FileType.VIDEOS);}
+        if (musicCheckBox.isSelected()) {selectedFileTypes.add(FileType.MUSIC);}
+        if (appCheckBox.isSelected()) {selectedFileTypes.add(FileType.APPLICATIONS);}
+        if (archCheckBox.isSelected()) {selectedFileTypes.add(FileType.ARCHIVES);}
+        if (sysCheckBox.isSelected()) {selectedFileTypes.add(FileType.SYSTEM_FILES);}
 
         if (selectedFileTypes.isEmpty()){
             throw new IllegalArgumentException("No file types selected");
@@ -290,11 +298,11 @@ public class MainController {
         return selectedFileTypes;
     }
 
-    private String getDateFrequency(){
+    private DateFrequency getDateFrequency(){
         if (yearlyRadioButton.isSelected()){
-            return "Yearly";
+            return DateFrequency.YEARLY;
         } else if (monthlyRadioButton.isSelected()) {
-            return "Monthly";
+            return DateFrequency.MONTHLY;
         }
         throw new IllegalArgumentException("Invalid date frequency");
     }

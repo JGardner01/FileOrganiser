@@ -48,67 +48,67 @@ public class EditAutomationController {
     private Button removeButton;
     private MainController mainController;
 
-    private String mode;
-    private List<String> selectedFileTypes;
-    private String dateFrequency;
+    private OrganiseMode mode;
+    private List<FileType> selectedFileTypes;
+    private DateFrequency dateFrequency;
 
     public void setPath(String path){
         directoryTextField.setText(path);
     }
 
-    public void setOrganisedBy(String mode, List<String> selectedFileTypes){
+    public void setOrganisedBy(OrganiseMode mode, List<FileType> selectedFileTypes){
         this.mode = mode;
         setOrganisedByRadio(mode);
 
         this.selectedFileTypes = selectedFileTypes;
-        for(String fileType : selectedFileTypes){
+        for(FileType fileType : selectedFileTypes){
             switch (fileType){
-                case "Documents":
+                case FileType.DOCUMENTS:
                     docsCheckBox.setSelected(true);
                     break;
-                case "Images":
+                case FileType.IMAGES:
                     imgCheckBox.setSelected(true);
                     break;
-                case "Videos":
+                case FileType.VIDEOS:
                     vidCheckBox.setSelected(true);
                     break;
-                case "Music":
+                case FileType.MUSIC:
                     musicCheckBox.setSelected(true);
                     break;
-                case "Applications":
+                case FileType.APPLICATIONS:
                     appCheckBox.setSelected(true);
                     break;
-                case "Archives":
+                case FileType.ARCHIVES:
                     archCheckBox.setSelected(true);
                     break;
-                case "System Files":
+                case FileType.SYSTEM_FILES:
                     sysCheckBox.setSelected(true);
                     break;
             }
         }
     }
 
-    public void setOrganisedBy(String mode, String dateFrequency){
+    public void setOrganisedBy(OrganiseMode mode, DateFrequency dateFrequency){
         this.mode = mode;
-        setOrganisedByRadio("date");
+        setOrganisedByRadio(OrganiseMode.DATE);
 
         this.dateFrequency = dateFrequency;
-        if (dateFrequency.equals("Yearly")){
+        if (dateFrequency.equals(DateFrequency.YEARLY)){
             yearlyRadioButton.setSelected(true);
-        } else if(dateFrequency.equals("Monthly")){
+        } else if(dateFrequency.equals(DateFrequency.MONTHLY)){
             monthlyRadioButton.setSelected(true);
         }
     }
 
-    private void setOrganisedByRadio(String mode) {
-        if (mode.equals("fileType")) {
+    private void setOrganisedByRadio(OrganiseMode mode) {
+        if (mode.equals(OrganiseMode.FILE_TYPE)) {
             fileTypeRadioButton.setSelected(true);
             fileTypeVbox.setVisible(true);
             fileTypeVbox.setManaged(true);
             dateVbox.setVisible(false);
             dateVbox.setManaged(false);
 
-        } else if (mode.equals("date")) {
+        } else if (mode.equals(OrganiseMode.DATE)) {
             dateRadioButton.setSelected(true);
             fileTypeVbox.setVisible(false);
             fileTypeVbox.setManaged(false);
@@ -175,32 +175,32 @@ public class EditAutomationController {
         stage.close();
     }
 
-    private boolean checkChanged(String mode){
-        String newMode;
+    private boolean checkChanged(OrganiseMode mode){
+        OrganiseMode newMode;
         if (fileTypeRadioButton.isSelected()){
-            newMode = "fileType";
+            newMode = OrganiseMode.FILE_TYPE;
         } else {
-            newMode = "date";
+            newMode = OrganiseMode.DATE;
         }
 
         if (!mode.equals(newMode)) {
             return true;
-        } else if (mode.equals("fileType")) {
+        } else if (mode.equals(OrganiseMode.FILE_TYPE)) {
             return !selectedFileTypes.equals(getSelectedFileTypes());
         } else {
             return !dateFrequency.equals(getDateFrequency());
         }
     }
 
-    private ArrayList<String> getSelectedFileTypes() {
-        ArrayList<String> selectedFileTypes = new ArrayList<>();
-        if (docsCheckBox.isSelected()) {selectedFileTypes.add("Documents");}
-        if (imgCheckBox.isSelected()) {selectedFileTypes.add("Images");}
-        if (vidCheckBox.isSelected()) {selectedFileTypes.add("Videos");}
-        if (musicCheckBox.isSelected()) {selectedFileTypes.add("Music");}
-        if (appCheckBox.isSelected()) {selectedFileTypes.add("Applications");}
-        if (archCheckBox.isSelected()) {selectedFileTypes.add("Archives");}
-        if (sysCheckBox.isSelected()) {selectedFileTypes.add("System Files");}
+    private ArrayList<FileType> getSelectedFileTypes() {
+        ArrayList<FileType> selectedFileTypes = new ArrayList<>();
+        if (docsCheckBox.isSelected()) {selectedFileTypes.add(FileType.DOCUMENTS);}
+        if (imgCheckBox.isSelected()) {selectedFileTypes.add(FileType.IMAGES);}
+        if (vidCheckBox.isSelected()) {selectedFileTypes.add(FileType.VIDEOS);}
+        if (musicCheckBox.isSelected()) {selectedFileTypes.add(FileType.MUSIC);}
+        if (appCheckBox.isSelected()) {selectedFileTypes.add(FileType.APPLICATIONS);}
+        if (archCheckBox.isSelected()) {selectedFileTypes.add(FileType.ARCHIVES);}
+        if (sysCheckBox.isSelected()) {selectedFileTypes.add(FileType.SYSTEM_FILES);}
 
         if (selectedFileTypes.isEmpty()){
             throw new IllegalArgumentException("No file types selected");
@@ -209,11 +209,11 @@ public class EditAutomationController {
         return selectedFileTypes;
     }
 
-    private String getDateFrequency(){
+    private DateFrequency getDateFrequency(){
         if (yearlyRadioButton.isSelected()){
-            return "Yearly";
+            return DateFrequency.YEARLY;
         } else if (monthlyRadioButton.isSelected()) {
-            return "Monthly";
+            return DateFrequency.MONTHLY;
         }
         throw new IllegalArgumentException("Invalid date frequency");
     }

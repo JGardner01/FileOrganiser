@@ -173,7 +173,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </Label>
-                  <ListView fx:id="automationListView" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pickOnBounds="false" prefHeight="236.0" prefWidth="331.0" stylesheets="@../../../stylesheets/AutomationsList.css">
+                  <ListView fx:id="automationListView" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" pickOnBounds="false" prefWidth="331.0" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>

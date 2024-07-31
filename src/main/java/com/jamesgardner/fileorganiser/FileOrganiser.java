@@ -11,30 +11,30 @@ import java.util.List;
 
 public class FileOrganiser {
     private String path;
-    private String mode;
-    private List<String> selectedFileTypes;
-    private String dateFrequency;
+    private OrganiseMode mode;
+    private List<FileType> selectedFileTypes;
+    private DateFrequency dateFrequency;
 
     /**
      * Constructor
      */
-    public FileOrganiser(String path, List<String> selectedFileTypes){
+    public FileOrganiser(String path, List<FileType> selectedFileTypes){
         this.path = path;
-        this.mode = "fileType";
+        this.mode = OrganiseMode.FILE_TYPE;
         this.selectedFileTypes = selectedFileTypes;
 
         createFolders();
     }
 
-    public FileOrganiser(String path, String dateFrequency){
+    public FileOrganiser(String path, DateFrequency dateFrequency){
         this.path = path;
-        this.mode = "date";
+        this.mode = OrganiseMode.DATE;
         this.dateFrequency = dateFrequency;
     }
 
     public void createFolders(){
-        for (String folder : selectedFileTypes) {
-            File folderPath = new File(path, folder);
+        for (FileType folder : selectedFileTypes) {
+            File folderPath = new File(path, folder.toFormattedString());
             if (!folderPath.exists()) {
                 folderPath.mkdir();
                 //throw error if false mkdir
@@ -56,12 +56,12 @@ public class FileOrganiser {
                 if (file.isFile()) {
                     String fileName = file.getName().toLowerCase();
 
-                    if (mode.equals("fileType")){
-                        for (String folder : selectedFileTypes) {
+                    if (mode.equals(OrganiseMode.FILE_TYPE)){
+                        for (FileType folder : selectedFileTypes) {
                             List<String> extensions = Config.fileTypes.get(folder);
                             for (String ext : extensions) {
                                 if (fileName.endsWith(ext)) {
-                                    File destFolder = new File(path, folder);
+                                    File destFolder = new File(path, folder.toFormattedString());
                                     File currentFile = new File(destFolder, file.getName());
                                     try {
                                         Files.move(file.toPath(), currentFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -72,14 +72,14 @@ public class FileOrganiser {
                                 }
                             }
                         }    
-                    } else if (mode.equals("date")) {
+                    } else if (mode.equals(OrganiseMode.DATE)) {
                         FileTime creationTime = (FileTime) Files.getAttribute(file.toPath(), "creationTime");
                         LocalDateTime dateTime = LocalDateTime.ofInstant(creationTime.toInstant(), ZoneId.systemDefault());
 
                         String folderName;
-                        if (dateFrequency.equals("Yearly")){
+                        if (dateFrequency.equals(DateFrequency.YEARLY)){
                             folderName = String.valueOf(dateTime.getYear());
-                        } else if (dateFrequency.equals("Monthly")) {
+                        } else if (dateFrequency.equals(DateFrequency.MONTHLY)) {
                             folderName = dateTime.getYear() + "-" + String.format("%02d", dateTime.getMonthValue());
                         } else {
                             throw new Exception("Could not find date frequency");
