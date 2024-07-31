@@ -1,63 +1,76 @@
 package com.jamesgardner.fileorganiser;
 
+import com.jamesgardner.fileorganiser.enums.FileType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public class ManageFileExtensionsController {
 
     @FXML
-    private ComboBox<FileType> fileTypeComboBox;
+    private ComboBox<String> fileTypeComboBox;
 
     @FXML
-    private ListView<HBox> extensionListView;
+    private ListView<BorderPane> extensionListView;
 
     @FXML
     private TextField extensionTextField;
 
-    private ObservableList<HBox> extensionList;
+    private ObservableList<BorderPane> extensionList;
 
 
     public void initialize(){
-        fileTypeComboBox.setItems(FXCollections.observableArrayList(Config.fileTypes.keySet()));
+        ArrayList<String> fileTypesList = new ArrayList<>();
+        //get correct order do manual
+        fileTypesList.add(FileType.DOCUMENTS.toFormattedString());
+        fileTypesList.add(FileType.IMAGES.toFormattedString());
+        fileTypesList.add(FileType.VIDEOS.toFormattedString());
+        fileTypesList.add(FileType.MUSIC.toFormattedString());
+        fileTypesList.add(FileType.APPLICATIONS.toFormattedString());
+        fileTypesList.add(FileType.ARCHIVES.toFormattedString());
+        fileTypesList.add(FileType.SYSTEM_FILES.toFormattedString());
+        fileTypeComboBox.setItems(FXCollections.observableArrayList(fileTypesList));
     }
 
     @FXML
     protected void onFileTypeSelected(){
-        FileType selectedFileType = fileTypeComboBox.getValue();
+        String selectedFileType = fileTypeComboBox.getValue();
         extensionList = FXCollections.observableArrayList();
-        List<String> extensions = Config.fileTypes.get(selectedFileType);
+        List<String> extensions = Config.fileTypes.get(getSelectedFileType(selectedFileType));
         for (String extension : extensions){
             extensionList.add(createExtensionItem(extension));
         }
         extensionListView.setItems(extensionList);
     }
 
-    private HBox createExtensionItem(String extension){
-        HBox hbox = new HBox();
+    private BorderPane createExtensionItem(String extension){
+        BorderPane borderPane = new BorderPane();
         Label extensionLabel = new Label(extension);
-        Button removeButton = new Button("Delete");
+        Button removeButton = new Button("Remove");
 
         removeButton.setOnAction(event -> {
-            extensionList.remove(hbox);
-            Config.fileTypes.get(fileTypeComboBox.getValue()).remove(extension);
+            extensionList.remove(borderPane);
+            Config.fileTypes.get(getSelectedFileType(fileTypeComboBox.getValue())).remove(extension);
         });
 
-        hbox.getChildren().addAll(extensionLabel, removeButton);
-        return hbox;
+        borderPane.setLeft(extensionLabel);
+        borderPane.setRight(removeButton);
+        return borderPane;
     }
 
     @FXML
     protected void onAddButtonClick(){
-        FileType selectedFileType = fileTypeComboBox.getValue();
+        String selectedFileType = fileTypeComboBox.getValue();
         String newExtension = extensionTextField.getText();
 
         if (!newExtension.isEmpty() && !newExtension.startsWith(".")){
@@ -71,7 +84,7 @@ public class ManageFileExtensionsController {
             }
 
             if (!checkExtensionExists(newExtension)){
-                List<String> extensions = Config.fileTypes.get(selectedFileType);
+                List<String> extensions = Config.fileTypes.get(getSelectedFileType(selectedFileType));
                 if (!extensions.contains(newExtension)){
                     extensions.add(newExtension);
                     extensionList.add(createExtensionItem(newExtension));
@@ -102,5 +115,9 @@ public class ManageFileExtensionsController {
     protected void onCloseButtonClick(){
         Stage stage = (Stage) extensionTextField.getScene().getWindow();
         stage.close();
+    }
+
+    private FileType getSelectedFileType(String selectedFileType){
+        return FileType.values()[fileTypeComboBox.getItems().indexOf(selectedFileType)];
     }
 }

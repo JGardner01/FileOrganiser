@@ -1,5 +1,8 @@
 package com.jamesgardner.fileorganiser;
 
+import com.jamesgardner.fileorganiser.enums.DateFrequency;
+import com.jamesgardner.fileorganiser.enums.FileType;
+
 import java.io.File;
 import java.nio.file.*;
 import java.util.List;

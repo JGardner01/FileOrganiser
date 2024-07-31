@@ -7,4 +7,6 @@ module com.jamesgardner.fileorganiser {
 
     opens com.jamesgardner.fileorganiser to javafx.fxml;
     exports com.jamesgardner.fileorganiser;
+    exports com.jamesgardner.fileorganiser.enums;
+    opens com.jamesgardner.fileorganiser.enums to javafx.fxml;
 }

@@ -1,5 +1,7 @@
 package com.jamesgardner.fileorganiser;
 
+import com.jamesgardner.fileorganiser.enums.FileType;
+
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;

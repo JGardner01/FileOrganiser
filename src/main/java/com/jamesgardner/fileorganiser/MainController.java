@@ -1,5 +1,8 @@
 package com.jamesgardner.fileorganiser;
 
+import com.jamesgardner.fileorganiser.enums.DateFrequency;
+import com.jamesgardner.fileorganiser.enums.FileType;
+import com.jamesgardner.fileorganiser.enums.OrganiseMode;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -87,7 +90,7 @@ public class MainController {
         Stage extensionsStage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ManageFileExtensions.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        extensionsStage.setTitle("Additional File Extensions");
+        extensionsStage.setTitle("Manage File Extensions");
         extensionsStage.setScene(scene);
 //        extensionsStage.setResizable(false);
         extensionsStage.initModality(Modality.APPLICATION_MODAL);

@@ -1,5 +1,8 @@
 package com.jamesgardner.fileorganiser;
 
+import com.jamesgardner.fileorganiser.enums.DateFrequency;
+import com.jamesgardner.fileorganiser.enums.FileType;
+import com.jamesgardner.fileorganiser.enums.OrganiseMode;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
