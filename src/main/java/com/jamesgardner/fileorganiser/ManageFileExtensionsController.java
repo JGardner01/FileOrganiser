@@ -80,6 +80,7 @@ public class ManageFileExtensionsController {
         if (selectedFileType != null && !newExtension.isEmpty()){
             if (!newExtension.matches("^\\.[A-Za-z0-9._-]+$")){
                 System.out.println("Extension not valid");
+                Alerts.errorAlert("Adding Extension", "The inputted extension was not valid.");
                 return;
             }
 
@@ -92,9 +93,11 @@ public class ManageFileExtensionsController {
                 }
             } else{
                 System.out.println("Extension already exists");
+                Alerts.errorAlert("Adding Extension", "The inputted extension already exists.");
             }
         } else{
             System.out.println("No file type selected or no extension entered");
+            Alerts.errorAlert("Adding Extension", "No file type was selected or no extension was entered.");
         }
     }
 

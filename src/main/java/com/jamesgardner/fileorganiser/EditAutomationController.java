@@ -153,6 +153,9 @@ public class EditAutomationController {
 
             Stage stage = (Stage) directoryTextField.getScene().getWindow();
             stage.close();
+        } else {
+            System.err.println("Edit automation controller remove button is null");
+            Alerts.errorAlert( "Removing Automation", "An error occurred while attempting to remove automation.");
         }
     }
 
@@ -168,10 +171,11 @@ public class EditAutomationController {
                 } else if (dateRadioButton.isSelected()) {
                     mainController.addToAutomations(path, getDateFrequency());
                 } else{
+                    Alerts.errorAlert("Saving Edited Automation Changes", "The organise by mode selected is not valid.");
                     throw new IllegalArgumentException("Organise by not valid");
                 }
             } catch (Exception e){
-                System.out.println("Exception:" + e.getMessage());
+                System.err.println("Exception:" + e.getMessage());
             }
         }
         Stage stage = (Stage) directoryTextField.getScene().getWindow();
@@ -206,6 +210,7 @@ public class EditAutomationController {
         if (sysCheckBox.isSelected()) {selectedFileTypes.add(FileType.SYSTEM_FILES);}
 
         if (selectedFileTypes.isEmpty()){
+            Alerts.errorAlert("Saving Edited Automation Changes", "No file types were selected.");
             throw new IllegalArgumentException("No file types selected");
         }
 
@@ -218,6 +223,7 @@ public class EditAutomationController {
         } else if (monthlyRadioButton.isSelected()) {
             return DateFrequency.MONTHLY;
         }
+        Alerts.errorAlert("Saving Edited Automation Changes", "Invalid date frequency selected.");
         throw new IllegalArgumentException("Invalid date frequency");
     }
 

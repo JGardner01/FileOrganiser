@@ -92,7 +92,6 @@ public class MainController {
         Scene scene = new Scene(fxmlLoader.load());
         extensionsStage.setTitle("Manage File Extensions");
         extensionsStage.setScene(scene);
-//        extensionsStage.setResizable(false);
         extensionsStage.initModality(Modality.APPLICATION_MODAL);
         extensionsStage.showAndWait();
     }
@@ -118,7 +117,7 @@ public class MainController {
         directoryChooser.setTitle("Select Directory to Organise");
 
         File selectedDirectory = directoryChooser.showDialog(new Stage());
-        System.out.println(selectedDirectory);//debug
+        //System.out.println(selectedDirectory);//debug
         directoryTextField.setText(String.valueOf(selectedDirectory));
     }
 
@@ -153,13 +152,16 @@ public class MainController {
 
             if (organised){
                 System.out.print("Files were organised");
+                Alerts.infoAlert( "Organising Files", "Files were organised successfully.");
             } else {
                 System.out.println("Error organising files");
+                Alerts.errorAlert( "Organising Files", "An error occurred organising files.");
             }
 
 
         } catch (Exception e){
             System.out.println("Exception:" + e.getMessage());
+            Alerts.errorAlert( "Organising Files", "An error occurred organising files.");
         }
     }
 
@@ -175,6 +177,7 @@ public class MainController {
             }
         } catch (Exception e){
             System.out.println("Exception:" + e.getMessage());
+            Alerts.errorAlert("Automating Directory", "The organise by mode selected is not valid.");
         }
     }
 
@@ -278,6 +281,7 @@ public class MainController {
         File directory = new File(path);
         //check directory is valid
         if (!directory.exists() || !directory.isDirectory()){
+            Alerts.errorAlert( "Invalid Directory", "The selected directory does not exist or is not a valid directory.");
             throw new IllegalArgumentException("Invalid directory");
         }
 
@@ -295,6 +299,7 @@ public class MainController {
         if (sysCheckBox.isSelected()) {selectedFileTypes.add(FileType.SYSTEM_FILES);}
 
         if (selectedFileTypes.isEmpty()){
+            Alerts.errorAlert( "File Type Selection", "There were no file types selected to organise the files by.");
             throw new IllegalArgumentException("No file types selected");
         }
 
@@ -307,6 +312,7 @@ public class MainController {
         } else if (monthlyRadioButton.isSelected()) {
             return DateFrequency.MONTHLY;
         }
+        Alerts.errorAlert( "Invalid Date Frequency", "Invalid date frequency selected or there was no date frequency selected.");
         throw new IllegalArgumentException("Invalid date frequency");
     }
 }

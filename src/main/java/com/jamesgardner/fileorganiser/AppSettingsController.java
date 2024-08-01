@@ -19,6 +19,8 @@ public class AppSettingsController {
     @FXML
     private CheckBox startUpCheckBox;
 
+    //private final String = ""
+
     public void initialize() {
         directoryTextField.setText(Config.defaultPath);
     }
@@ -29,7 +31,7 @@ public class AppSettingsController {
         directoryChooser.setTitle("Select Directory to Organise");
 
         File selectedDirectory = directoryChooser.showDialog(new Stage());
-        System.out.println(selectedDirectory);//debug
+        //System.out.println(selectedDirectory);//debug
         directoryTextField.setText(String.valueOf(selectedDirectory));
     }
 
@@ -47,6 +49,7 @@ public class AppSettingsController {
         //check directory is valid
         if (!directory.exists() || !directory.isDirectory()){
             System.out.println("Directory invalid");
+            Alerts.errorAlert("Changing Default Directory", "The selected directory does not exist or is not a valid directory.");
             return;
         } else {
             Config.defaultPath = path;

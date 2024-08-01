@@ -99,6 +99,7 @@ public class FileOrganiser {
                             Files.move(file.toPath(), currentFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                         } catch (IOException e){
                             System.err.println("Error moving file");
+
                         }
 
                     }

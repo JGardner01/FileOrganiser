@@ -63,13 +63,13 @@ public class DirectoryAutomator implements  Runnable{
 
                 boolean valid = watchKey.reset();
                 if(!valid){
-                    System.out.println("Watch key not valid");
                     break;
                 }
 
             }
         } catch (Exception e){
             System.out.println("Error setting up directory watcher: " + e.getMessage());
+            Alerts.errorAlert("Automating Directory", ("Error occurred setting up directory watcher: " + e.getMessage() + "."));
         }
     }
 }
