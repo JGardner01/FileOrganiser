@@ -31,8 +31,8 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-                  <MenuItem mnemonicParsing="false" onAction="#onHelpClick" text="Help" />
               <MenuItem mnemonicParsing="false" onAction="#onAboutClick" text="About" />
+                  <MenuItem mnemonicParsing="false" onAction="#onHelpClick" text="Help" />
             </items>
           </Menu>
         </menus>

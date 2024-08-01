@@ -103,12 +103,23 @@ public class MainController {
     }
 
     @FXML
-    protected void onHelpClick() {
-        //implement new window with instructions in final ui stage
+    protected void onHelpClick() throws IOException {
+        Stage helpStage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Help.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        helpStage.setTitle("Help");
+        helpStage.setScene(scene);
+        helpStage.show();
     }
     @FXML
-    protected void onAboutClick() {
-        //implement new window with about application in final ui stage
+    protected void onAboutClick() throws IOException{
+        Stage aboutStage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("About.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        aboutStage.setTitle("About");
+        aboutStage.setResizable(false);
+        aboutStage.setScene(scene);
+        aboutStage.show();
     }
 
     @FXML
