@@ -7,7 +7,7 @@ FileOrganiser is a JavaFX application designed to help users efficiently manage 
 - **Automated File Organisation**: Automatically sorts files into categories according to the user's organisation criteria.
 - **System Tray Integration**: Application runs in the background with easy access from the system tray.
 - **Custom File Extensions**: Allows users to define and manage custom file extensions for sorting.
-- **Customisable Settings**: Personalise the application's behavior by adjusting the default directory path and choosing whether to run the application in the background.
+- **Customisable Settings**: Personalise the application's behaviour by adjusting the default directory path and choosing whether to run the application in the background.
 
 ## Customisation
 - **Custom File Extensions**: Define and manage both custom and predefined file extensions using the Manage File Extension user interface.
