@@ -14,7 +14,7 @@ FileOrganiser is a JavaFX application designed to help users efficiently manage 
 - **Organisation Preferences**: Configure organisation criteria to control how files are organised and which directories are sorted.
 - **Application Behaviour**: Customise how the application operates, including options to run automatic organisation in the background and specify the default directory path.
 
-### Technologies Used
+## Technologies Used
 - **Java**: The core programming language used in the application.
 - **JavaFX**: For building a rich and responsive user interface.
 - **Maven**: For project management and build automation.
